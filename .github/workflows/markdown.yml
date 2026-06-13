@@ -1,0 +1,14 @@
+name: Markdown sanity
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  markdown-sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: List markdown files
+        run: find . -name "*.md" -not -path "./.git/*" | sort

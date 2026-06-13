@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Local notes
+.local/
+notes/private/
+
+# Build/archive outputs
+*.zip
+*.tar.gz
