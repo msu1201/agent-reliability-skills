@@ -190,18 +190,18 @@ docs/
   philosophy.md
 ```
 
-## How to use a skill
+## Install as a skills pack
 
-Copy the `prompt.md` for the skill into your coding agent session.
+For manual use, copy a skill `prompt.md` into your coding-agent session.
 
-For stronger results, also keep the `SKILL.md` nearby as a durable workflow contract in your project docs or agent instruction system.
+For autonomous use, vendor this repo into your project and copy `templates/AGENTS_RELIABILITY_PACK.md` into your `AGENTS.md`.
 
-Example:
+Start here:
 
-```text
-Use skills/session-retrospective/prompt.md at the end of this coding session.
-Do not modify files. Produce only the retrospective.
-```
+- `docs/installation.md`
+- `docs/skill-routing.md`
+- `docs/recovery-flow.md`
+- `case-studies/001-allowed-paths-are-planned-touch-areas.md`
 
 ## Design principles
 
