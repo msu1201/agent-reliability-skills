@@ -26,6 +26,65 @@ A skill is more than a prompt. A skill defines:
 - what the human should review
 - what common failure modes it addresses
 
+## Failure modes this repo addresses
+
+The repo is organized around failure categories first, then skills.
+
+```text
+1. Scope failures
+   - scope creep
+   - over-implementation
+   - solving the wrong task
+   - continuing when it should stop
+
+2. Evidence failures
+   - claiming tests passed without running them
+   - vague completion reports
+   - missing git diff summary
+   - no validation trail
+
+3. Context failures
+   - reimplementing existing work
+   - ignoring AGENTS.md
+   - missing architecture conventions
+   - not inspecting current state
+
+4. Mutation failures
+   - unsafe file deletion
+   - broad refactors
+   - changing unrelated files
+   - committing without approval
+
+5. Review failures
+   - no PR summary
+   - no risk list
+   - no rollback notes
+   - no reviewer guidance
+
+6. Recovery failures
+   - repeated failed commands
+   - no diagnosis loop
+   - hiding uncertainty
+   - leaving dirty state unexplained
+```
+
+## Skill map
+
+Each failure mode should map to one or more reusable skills.
+
+```text
+scope-control/
+session-retrospective/
+evidence-based-closeout/
+before-you-code-recon/
+safe-mutation-gate/
+no-reimplementation-check/
+test-verification-report/
+pr-handoff-summary/
+dirty-tree-audit/
+agents-md-improvement-review/
+```
+
 ## Who this is for
 
 This repo is for people using coding agents such as Codex, Claude Code, Cursor agents, Devin-style agents, or custom agent runners on real engineering work.
@@ -40,22 +99,36 @@ It is especially useful if you care about:
 - better AGENTS.md / project instruction maintenance
 - repeatable agent handoff workflows
 
-## Initial skills
+## Skills by phase
 
 ### Before implementation
 
 | Skill | Purpose |
 | --- | --- |
+| [`before-you-code-recon`](skills/before-you-code-recon/SKILL.md) | Force the agent to inspect repo state, instructions, architecture, and tests before editing. |
 | [`no-reimplementation-check`](skills/no-reimplementation-check/SKILL.md) | Prevent agents from rebuilding functionality that already exists. |
 | [`scope-control`](skills/scope-control/SKILL.md) | Keep an agent inside a PR-sized task boundary. |
 | [`safe-mutation-gate`](skills/safe-mutation-gate/SKILL.md) | Require explicit safety checks before destructive or broad changes. |
+
+### During validation
+
+| Skill | Purpose |
+| --- | --- |
+| [`test-verification-report`](skills/test-verification-report/SKILL.md) | Prevent vague validation claims by requiring exact commands, results, and missing evidence. |
 
 ### Before handoff
 
 | Skill | Purpose |
 | --- | --- |
+| [`dirty-tree-audit`](skills/dirty-tree-audit/SKILL.md) | Explain tracked and untracked changes before committing, cleaning, or handing off. |
 | [`evidence-based-closeout`](skills/evidence-based-closeout/SKILL.md) | Make the agent prove what changed and what was validated. |
+| [`pr-handoff-summary`](skills/pr-handoff-summary/SKILL.md) | Produce a reviewer-friendly PR summary with risks, tests, and rollback notes. |
 | [`session-retrospective`](skills/session-retrospective/SKILL.md) | Ask the agent to review its own session and propose instruction improvements. |
+
+### After repeated failures
+
+| Skill | Purpose |
+| --- | --- |
 | [`agents-md-improvement-review`](skills/agents-md-improvement-review/SKILL.md) | Convert repeated agent failures into reviewable AGENTS.md changes. |
 
 ## Recommended workflow
@@ -65,15 +138,21 @@ Use these skills as small workflow gates rather than one giant instruction block
 ```text
 1. Start task
    → scope-control
+   → before-you-code-recon
    → no-reimplementation-check
 
 2. Before risky edits
    → safe-mutation-gate
 
-3. Before handoff
-   → evidence-based-closeout
+3. During validation
+   → test-verification-report
 
-4. After a meaningful session or repeated failure
+4. Before handoff
+   → dirty-tree-audit
+   → evidence-based-closeout
+   → pr-handoff-summary
+
+5. After a meaningful session or repeated failure
    → session-retrospective
    → agents-md-improvement-review
 ```
@@ -82,6 +161,17 @@ Use these skills as small workflow gates rather than one giant instruction block
 
 ```text
 skills/
+  scope-control/
+  session-retrospective/
+  evidence-based-closeout/
+  before-you-code-recon/
+  safe-mutation-gate/
+  no-reimplementation-check/
+  test-verification-report/
+  pr-handoff-summary/
+  dirty-tree-audit/
+  agents-md-improvement-review/
+
   <skill-name>/
     SKILL.md        # workflow contract
     prompt.md       # copy-paste prompt
